@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>iframe parent</title>
+</head>
+
+<body>
+  <div>
+    <iframe src="http://localhost:4200" id="iframe" name="iframe"
+            width="1200px" height="500px">
+      doesn't work :(
+    </iframe>
+  </div>
+
+  <div style="margin-top: 20px">
+    <input placeholder="text" type="string" id="id_input" value="">
+    <input type="button" value="Send to iframe" onclick="postToIframe('userMessage', document.getElementById('id_input').value)">
+  </div>
+</body>
+
+  <script>
+    const iframe_element = document.getElementById('iframe');
+    function postToIframe(type, info) {
+      iframe_element.contentWindow.postMessage({
+        type,
+        info
+      }, "*");
+    }
+
+    setInterval(myTimer, 1000);
+
+    function myTimer() {
+      const date = new Date().toLocaleTimeString();
+      postToIframe('fakeAPIData', `fake API data ${date}`)
+    }
+  </script>
+
+</html>
